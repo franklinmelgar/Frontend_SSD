@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './Components/Header'
+import Asside from './Components/Asside'
+import DashboardAP from './Components/DashboardAP'
+import DashboardAR from './Components/DashboardAR'
+import TipoLibreta from './Components/TipoLibreta'
+import Footer from './Components/Footer'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
+export default function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div>
+      <Header />
+      <BrowserRouter>
+        <Asside />
 
-export default App;
+        <Routes>
+
+            <Route path='/' element={<DashboardAP />}></Route>
+            <Route path='/DashboardAR' element={<DashboardAR />}></Route>
+            <Route path='/TipoLibreta' element={<TipoLibreta />}></Route>
+
+        </Routes>
+
+      </BrowserRouter>
+      <Footer />
+    </div>
+  )
+}
