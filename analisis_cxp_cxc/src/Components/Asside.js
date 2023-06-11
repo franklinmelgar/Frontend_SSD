@@ -6,14 +6,14 @@ export default function Asside({ enviarMensaje }) {
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       {/* Brand Logo */}
-      <a href="index3.html" className="brand-link">
-        <img
+      <a href="#" className="brand-link">
+        {/* <img
           src="dist/img/AdminLTELogo.png"
           alt="AdminLTE Logo"
           className="brand-image img-circle elevation-3"
           style={{ opacity: ".8" }}
-        />
-        <span className="brand-text font-weight-light">AdminLTE 3</span>
+        /> */}
+        <span className="brand-text font-weight-light"></span>
       </a>
       {/* Sidebar */}
       <div className="sidebar">
@@ -28,7 +28,7 @@ export default function Asside({ enviarMensaje }) {
           </div>
           <div className="info">
             <a href="#" className="d-block">
-              Alexander Pierce
+              Usuario Final
             </a>
           </div>
         </div>
@@ -69,10 +69,7 @@ export default function Asside({ enviarMensaje }) {
               <li className="nav-item">
                 <a href="#" className="nav-link">
                   <i className="nav-icon fas fa-copy" />
-                  <p>
-                     Matenimientos
-                    <i className="fas fa-angle-left right" />
-                  </p>
+                  <p> Matenimientos <i className="fas fa-angle-left right" /> </p>
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
@@ -88,10 +85,10 @@ export default function Asside({ enviarMensaje }) {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <Link to="CategoriaLibreta" className="nav-link">
                       <i className="far fa-circle nav-icon" />
                       <p>Categorias de libreta</p>
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="TipoLibreta" className="nav-link" >
@@ -122,17 +119,22 @@ export default function Asside({ enviarMensaje }) {
               <li className="nav-item">
                 <a href="#" className="nav-link">
                   <i className="nav-icon fas fa-copy" />
-                  <p>
-                    Cargas Masivas
+                  <p> Cargas Masivas
                     <i className="fas fa-angle-left right" />
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <Link to="CargaMasiva" className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Cargar</p>
-                    </a>
+                      <p>Carga Masiva - Compras</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="CargaMasivaVentas" className="nav-link">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Carga Masiva - Ventas</p>
+                    </Link>
                   </li>
                 </ul>
               </li>

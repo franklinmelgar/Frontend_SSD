@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function TipoLibreta() {
-  const url = "https://localhost:7220/api/TipoLibreta";
+  const url = "https://localhost:7220/api/CategoriaLibreta";
 
   const [modalInsertar, setModalInsertar] = useState(false);
   const abrirModalInsertar = () => {
     setModalInsertar(!modalInsertar);
   };
 
-  const [tipoSeleccionado, setTipoSeleccionado] = useState({
-    codigoTipo: 0,
-    descripcionTipo: "",
+  const [categoriaSeleccionado, setCategoriaSeleccionado] = useState({
+    codigoCategoria: 0,
+    descripcionCategoria: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTipoSeleccionado({
-      ...tipoSeleccionado,
+    setCategoriaSeleccionado({
+      ...categoriaSeleccionado,
       [name]: value,
     });
   };
@@ -26,7 +26,7 @@ export default function TipoLibreta() {
 
   const [data, setData] = useState([]);
 
-  const obtenerTipoLibreta = async () => {
+  const obtenerCategoriaLibreta = async () => {
     try {
       const response = await axios.get(url);
       setData(response.data);
@@ -36,16 +36,16 @@ export default function TipoLibreta() {
   };
 
   useEffect(() => {
-    obtenerTipoLibreta();
+    obtenerCategoriaLibreta();
   }, []);
 
   // Insertar
-  const insertarTipoLibreta = async () => {
-    if (tipoSeleccionado.descripcionTipo !== "") {
+  const insertarCategoriaLibreta = async () => {
+    if (categoriaSeleccionado.descripcionCategoria !== "") {
       try {
-        delete tipoSeleccionado.codigoTipo;
+        delete categoriaSeleccionado.codigoCategoria;
         const response = await axios
-          .post(url, tipoSeleccionado)
+          .post(url, categoriaSeleccionado)
           .then((response) => {
             setData(data.concat(response.data));
           });
@@ -55,21 +55,21 @@ export default function TipoLibreta() {
     }
   };
 
-  const seleccionarTipo = (tipo) => {
-    setTipoSeleccionado(tipo);
+  const seleccionarCategoria = (categoria) => {
+    setCategoriaSeleccionado(categoria);
   };
 
   //Modificar
-  const modificarTipoLibreta = async () => {
+  const modificarCategoriaLibreta = async () => {
     try {
       const response = await axios
-        .put(url + "/" + tipoSeleccionado.codigoTipo, tipoSeleccionado)
+        .put(url + "/" + categoriaSeleccionado.codigoCategoria, categoriaSeleccionado)
         .then((response) => {
           var respuesta = response.data;
           var auxiliarData = data;
-          auxiliarData.map((tipo) => {
-            if (tipo.codigoTipo === tipoSeleccionado.codigoTipo) {
-              tipo.descripcionTipo = respuesta.descripcionTipo;
+          auxiliarData.map((categoria) => {
+            if (categoria.codigoCategirua === categoriaSeleccionado.codigoCategoria) {
+              categoria.descripcionCategoria = respuesta.descripcionCategoria;
             }
             setData(auxiliarData);
           });
@@ -80,12 +80,12 @@ export default function TipoLibreta() {
   };
 
   //Eliminar
-  const eliminarTipoLibreta = async () => {
+  const eliminarCategoriaLibreta = async () => {
     try {
       const response = await axios
-        .delete(url + "/" + tipoSeleccionado.codigoTipo, tipoSeleccionado)
+        .delete(url + "/" + categoriaSeleccionado.codigoCategoria, categoriaSeleccionado)
         .then((response) => {
-          setData(data.filter((tipo) => tipo.codigoTipo !== response.data));
+          setData(data.filter((categoria) => categoria.codigoCategoria !== response.data));
         });
     } catch (error) {
       console.log(error);
@@ -99,14 +99,14 @@ export default function TipoLibreta() {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-sm-6">
-              <h1>Tipos de Libretas</h1>
+              <h1>Categorias de Libreta</h1>
             </div>
             <div className="col-sm-6">
               <ol className="breadcrumb float-sm-right">
                 <li className="breadcrumb-item">
                   <a>Matenimientos</a>
                 </li>
-                <li className="breadcrumb-item active">Tipos de libretas</li>
+                <li className="breadcrumb-item active">Categorias de libretas</li>
               </ol>
             </div>
           </div>
@@ -120,11 +120,11 @@ export default function TipoLibreta() {
           
           <div className="row">
             <div className="col-md-3">
-              <button type="button"
+              <button type="button" 
                 class="btn btn-sm btn-primary btn-lg"
                 data-toggle="modal"
-                data-target="#modal-tipo-insertar" >
-                Insertar nuevo tipo
+                data-target="#modal-categoria-insertar" >
+                Insertar nuevo categoria
               </button>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function TipoLibreta() {
             <div className="col-md-12">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Listado de tipos de libreta</h3>
+                  <h3 className="card-title">Listado de categorias de libreta</h3>
                 </div>
 
                 <div className="card-body">
@@ -143,23 +143,23 @@ export default function TipoLibreta() {
                     <thead>
                       <tr>
                         <th style={{ width: 10 }}>#</th>
-                        <th>Descripcion Tipo</th>
+                        <th>Descripcion Categoria</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((n) => (
                         <tr>
-                          <td key={n.codigoTipo}>{n.codigoTipo}</td>
-                          <td>{n.descripcionTipo}</td>
+                          <td key={n.codigoCategoria}>{n.codigoCategoria}</td>
+                          <td>{n.descripcionCategoria}</td>
                           <td>
                             <div>
                               <button
                                 style={{ width: 60 }}
                                 className="btn btn-sm bg-success"
-                                onClick={() => seleccionarTipo(n)}
+                                onClick={() => seleccionarCategoria(n)}
                                 data-toggle="modal"
-                                data-target="#modal-tipo-modificar"
+                                data-target="#modal-categoria-modificar"
                               >
                                 <i className="fas fa-edit" />
                               </button>
@@ -167,9 +167,9 @@ export default function TipoLibreta() {
                               <button
                                 style={{ width: 60 }}
                                 className="btn btn-sm bg-danger"
-                                onClick={() => seleccionarTipo(n)}
+                                onClick={() => seleccionarCategoria(n)}
                                 data-toggle="modal"
-                                data-target="#modal-tipo-eliminar"
+                                data-target="#modal-categoria-eliminar"
                               >
                                 <i className="fas fa-trash" />
                               </button>
@@ -187,12 +187,12 @@ export default function TipoLibreta() {
           {/* ventana modal insertar */}
           <div
             className="modal fade"
-            id="modal-tipo-insertar"
+            id="modal-categoria-insertar"
           >
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title">Insertar Tipo de Libreta</h4>
+                  <h4 className="modal-title">Insertar Categoria de Libreta</h4>
                   <button
                     type="button"
                     className="close"
@@ -205,14 +205,14 @@ export default function TipoLibreta() {
                 <div className="modal-body">
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">
-                      Descripcion tipo de libreta
+                      Descripcion categoria de libreta
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="descripcionTipo"
-                      placeholder="Ingrese un tipo"
-                      name="descripcionTipo"
+                      id="descripcionCategoria"
+                      placeholder="Ingrese una categoria"
+                      name="descripcionCategoria"
                       onChange={handleChange}
                     />
                   </div>
@@ -230,7 +230,7 @@ export default function TipoLibreta() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => insertarTipoLibreta()}
+                    onClick={() => insertarCategoriaLibreta()}
                   >
                     Agregar
                   </button>
@@ -240,11 +240,11 @@ export default function TipoLibreta() {
           </div>
 
           {/* Ventana modal modificar */}
-          <div className="modal fade" id="modal-tipo-modificar">
+          <div className="modal fade" id="modal-categoria-modificar">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title">Modificar Tipo de Libreta</h4>
+                  <h4 className="modal-title">Modificar Categoria de Libreta</h4>
                   <button
                     type="button"
                     className="close"
@@ -256,30 +256,30 @@ export default function TipoLibreta() {
                 </div>
                 <div className="modal-body">
                   <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Codigo Tipo</label>
+                    <label htmlFor="exampleInputEmail1">Codigo Categoria</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="codigoTipo"
-                      name="codigoTipo"
+                      id="codigoCategoria"
+                      name="codigoCategoria"
                       readOnly
-                      value={tipoSeleccionado && tipoSeleccionado.codigoTipo}
+                      value={categoriaSeleccionado && categoriaSeleccionado.codigoCategoria}
                     />
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">
-                      Descripcion tipo de libreta
+                      Descripcion categoria de libreta
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="descripcionTipo"
-                      placeholder="Ingrese un tipo"
-                      name="descripcionTipo"
+                      id="descripcionCategoria"
+                      placeholder="Ingrese una categoria"
+                      name="descripcionCategoria"
                       onChange={handleChange}
                       value={
-                        tipoSeleccionado && tipoSeleccionado.descripcionTipo
+                        categoriaSeleccionado && categoriaSeleccionado.descripcionCategoria
                       }
                     />
                   </div>
@@ -295,7 +295,7 @@ export default function TipoLibreta() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => modificarTipoLibreta()}
+                    onClick={() => modificarCategoriaLibreta()}
                   >
                     Modificar
                   </button>
@@ -305,11 +305,11 @@ export default function TipoLibreta() {
           </div>
 
           {/* Eliminar */}
-          <div className="modal fade" id="modal-tipo-eliminar">
+          <div className="modal fade" id="modal-categoria-eliminar">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title">Eliminar Tipo de Libreta</h4>
+                  <h4 className="modal-title">Eliminar Categoria de Libreta</h4>
                   <button
                     type="button"
                     className="close"
@@ -321,8 +321,8 @@ export default function TipoLibreta() {
                 </div>
                 <div className="modal-body">
                   <p>
-                    Esta seguro de eliminar el tipo:{" "}
-                    {tipoSeleccionado && tipoSeleccionado.descripcionTipo}?
+                    Esta seguro de eliminar la categoria:{" "}
+                    {categoriaSeleccionado && categoriaSeleccionado.descripcionCategoria}?
                   </p>
                 </div>
                 <div className="modal-footer justify-content-between">
@@ -336,7 +336,7 @@ export default function TipoLibreta() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => eliminarTipoLibreta()}
+                    onClick={() => eliminarCategoriaLibreta()}
                   >
                     Eliminar
                   </button>
