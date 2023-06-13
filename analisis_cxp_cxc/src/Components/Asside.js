@@ -54,13 +54,7 @@ export default function Asside({ enviarMensaje }) {
                 <li className="nav-item">
                   <Link className="nav-link" to="/" >
                     <i className="far fa-circle nav-icon" />
-                    <p>Dashboard AP</p>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="DashboardAR" >
-                    <i className="far fa-circle nav-icon" />
-                    <p>Dashboard AR</p>
+                    <p>Dashboard</p>
                   </Link>
                 </li>
               </ul>
@@ -127,13 +121,7 @@ export default function Asside({ enviarMensaje }) {
                   <li className="nav-item">
                     <Link to="CargaMasiva" className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Carga Masiva - Compras</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="CargaMasivaVentas" className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Carga Masiva - Ventas</p>
+                      <p>Carga Masiva</p>
                     </Link>
                   </li>
                 </ul>

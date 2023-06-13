@@ -4,8 +4,13 @@ import axios from "axios";
 export default function DashboardAP() {
   const url = "https://localhost:7220/api/Medidores";
 
-  const [fechaInicial, setFechaInicial] = useState("2023-01-01");
-  const [fechaFinal, setFechaFinal] = useState("2023-12-31");
+  const [fechaInicial, setFechaInicial] = useState();
+  const [fechaFinal, setFechaFinal] = useState();
+  const [tipoDocumento, setTipoDocumento] = useState(1);
+
+  const establecerTipoDocumento = (event) => {
+    setTipoDocumento(event.target.value);
+  };
 
   const establecerFechaInicial = (e) => {
     const { name, value } = e.target;
@@ -22,7 +27,7 @@ export default function DashboardAP() {
   const ObtenerTotalCompras = async () => {
     try {
       const direccion =
-        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalCompras";
+        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalCompras, " + tipoDocumento;
       console.log(direccion);
       const response = await axios.get(direccion);
       setData(response.data);
@@ -36,7 +41,7 @@ export default function DashboardAP() {
   const ObtenerTotalPorVencer = async () => {
     try {
       const direccion =
-        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalPorVencer";
+        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalPorVencer, " + tipoDocumento;
       console.log(direccion);
       const response = await axios.get(direccion);
       setPorVencer(response.data);
@@ -50,7 +55,7 @@ export default function DashboardAP() {
   const ObtenerTotalVencido = async () => {
     try {
       const direccion =
-        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalVencido";
+        url + "/" + fechaInicial + ", " + fechaFinal + ", TotalVencido, " + tipoDocumento;
       console.log(direccion);
       const response = await axios.get(direccion);
       setVencido(response.data);
@@ -73,7 +78,7 @@ export default function DashboardAP() {
 
   const ObtenerComprasAnuales = async () => {
     try {
-      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", graficoComprasMensuales";
+      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", graficoComprasMensuales, " + tipoDocumento;
       console.log(direccion);
       const response = await axios.get(direccion);
       setcomprasAnuales(response.data);
@@ -164,13 +169,7 @@ export default function DashboardAP() {
 
   const ObtenerComprasPorCategorias = async () => {
     try {
-      const direccion =
-        url +
-        "/" +
-        fechaInicial +
-        ", " +
-        fechaFinal +
-        ", graficoVentasPorCategoria";
+      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", graficoVentasPorCategoria, " + tipoDocumento;
       console.log(direccion);
       const response = await axios.get(direccion);
       setComprasPorCategorias(response.data);
@@ -219,7 +218,7 @@ export default function DashboardAP() {
 
   const obtenerFacturasVencidas = async () => {
     try {
-      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", DetalleFacturasVencidas";
+      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", DetalleFacturasVencidas, " + tipoDocumento;
       const response = await axios.get(direccion);
       setFacturasVencidas(response.data);
     } catch (error) {
@@ -231,7 +230,7 @@ export default function DashboardAP() {
 
   const obtenerFacturasPorVencer = async () => {
     try {
-      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", DetallePorVencer";
+      const direccion = url + "/" + fechaInicial + ", " + fechaFinal + ", DetallePorVencer, " + tipoDocumento;
       const response = await axios.get(direccion);
       setFacturasPorVencer(response.data);
     } catch (error) {
@@ -258,7 +257,7 @@ export default function DashboardAP() {
                 <li className="breadcrumb-item">
                   <a href="#">Dashboard</a>
                 </li>
-                <li className="breadcrumb-item active">Dashboard AP</li>
+                <li className="breadcrumb-item active">Dashboard</li>
               </ol>
             </div>
           </div>
@@ -274,7 +273,8 @@ export default function DashboardAP() {
             </div>
             <div className="card-body">
               <div className="row">
-                <div class="col-4">
+
+                <div class="col-3">
                   <div className="form-group">
                     <div className="input-group">
                       <div className="input-group-prepend">
@@ -282,18 +282,13 @@ export default function DashboardAP() {
                           <i className="far fa-calendar-alt" />
                         </span>
                       </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Fecha Inicial (YYYY-MM-DD)"
-                        onChange={establecerFechaInicial}
-                        data-mask
+                        <input type="text" className="form-control" placeholder="Fecha Inicial (YYYY-MM-DD)" onChange={establecerFechaInicial} data-mask
                       />
                     </div>
                   </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-3">
                   <div className="form-group">
                     <div className="input-group">
                       <div className="input-group-prepend">
@@ -301,24 +296,27 @@ export default function DashboardAP() {
                           <i className="far fa-calendar-alt" />
                         </span>
                       </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Fecha Final (YYYY-MM-DD)"
-                        onChange={establecerFechaFinal}
-                        data-mask
-                      />
+                        <input type="text" className="form-control" placeholder="Fecha Final (YYYY-MM-DD)" onChange={establecerFechaFinal} data-mask />
                     </div>
                   </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-3">
                   <div className="form-group">
-                    <button
-                      type="submit"
-                      class="btn btn-info"
-                      onClick={obtenerTodosLosDatos}
-                    >
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" value={1} onChange={establecerTipoDocumento} name="radio1" />
+                      <label className="form-check-label">Cuentas por pagar</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="radio" value={2} onChange={establecerTipoDocumento} name="radio1" />
+                      <label className="form-check-label">Cuentas por cobrar</label>
+                    </div>
+                  </div>
+                </div>                
+
+                <div class="col-3">
+                  <div className="form-group">
+                    <button type="submit" class="btn btn-info" onClick={obtenerTodosLosDatos} >
                       Refrescar
                     </button>
                   </div>

@@ -1,8 +1,10 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {OutTable, ExcelRenderer} from 'react-excel-renderer'
 
 export default function CargaMasiva() {
+
+  const url = "https://localhost:7220/api/CargaMasiva";
 
   const [filas, setFilas] = useState([])
 
@@ -15,8 +17,25 @@ export default function CargaMasiva() {
         setFilas(response.rows)
       }        
     })
-
   }
+
+  const [documento, setDocumento] = useState({
+    numeroDocumento: "",
+    codigoLibreta: 0,
+    codigoTipoDocumento: 0,
+    fechaDocumento: '2023-01-01',
+    fechaVencimiento: '2023-01-01',
+    codigoTermineCredito: 0,
+    subTotal: 0,
+    montoISV: 0,
+    montoTOtal: 0,
+    estadoDocumento: "Pendiente",
+
+  });
+
+  const insertarDocumentos = async () => {    
+      
+  };
 
   return (
     <div className="content-wrapper">
@@ -32,7 +51,7 @@ export default function CargaMasiva() {
                 <li className="breadcrumb-item">
                   <a>Cargas Masivas</a>
                 </li>
-                <li className="breadcrumb-item active">Carga Masivas Compras</li>
+                <li className="breadcrumb-item active">Carga Masivas</li>
               </ol>
             </div>
           </div>
@@ -61,7 +80,7 @@ export default function CargaMasiva() {
 
         <div className="row">
             <div className="col-md-3">
-              <button type="button" class="btn btn-sm btn-primary btn-lg" >Cargar datos en base de datos</button>
+              <button type="button" class="btn btn-sm btn-primary btn-lg" onClick={() => insertarDocumentos()} >Cargar datos en base de datos</button>
             </div>
           </div>
           <br></br>
