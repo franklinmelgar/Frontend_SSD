@@ -73,10 +73,10 @@ export default function Asside({ enviarMensaje }) {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="#" className="nav-link" >
+                    <Link to="TerminoCredito" className="nav-link" >
                       <i className="far fa-circle nav-icon" />
                       <p>Terminos de creditos</p>
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="CategoriaLibreta" className="nav-link">
@@ -87,7 +87,7 @@ export default function Asside({ enviarMensaje }) {
                   <li className="nav-item">
                     <Link to="TipoLibreta" className="nav-link" >
                       <i className="far fa-circle nav-icon" />
-                      <p>Tipos</p>
+                      <p>Tipos de libreta</p>
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -97,16 +97,16 @@ export default function Asside({ enviarMensaje }) {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="#" className="nav-link" >
+                    <Link to="Documentos" className="nav-link" >
                       <i className="far fa-circle nav-icon" />
                       <p>Documentos</p>
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="#" className="nav-link" >
+                    <Link to="TipoDocumento" className="nav-link" >
                       <i className="far fa-circle nav-icon" />
                       <p>Tipo de documentos</p>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
