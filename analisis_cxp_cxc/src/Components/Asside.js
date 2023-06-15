@@ -91,12 +91,6 @@ export default function Asside({ enviarMensaje }) {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="#" className="nav-link" >
-                      <i className="far fa-circle nav-icon" />
-                      <p>Productos</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
                     <Link to="Documentos" className="nav-link" >
                       <i className="far fa-circle nav-icon" />
                       <p>Documentos</p>
@@ -113,15 +107,21 @@ export default function Asside({ enviarMensaje }) {
               <li className="nav-item">
                 <a href="#" className="nav-link">
                   <i className="nav-icon fas fa-copy" />
-                  <p> Cargas Masivas
+                  <p> Reportes
                     <i className="fas fa-angle-left right" />
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <Link to="CargaMasiva" className="nav-link">
+                    <Link to="CuentasPorCobrar" className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Carga Masiva</p>
+                      <p>Cuentas por cobrar</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="CuentasPorPagar" className="nav-link">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Cuentas por pagar</p>
                     </Link>
                   </li>
                 </ul>

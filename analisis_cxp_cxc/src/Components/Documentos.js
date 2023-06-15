@@ -43,8 +43,48 @@ export default function TipoLibreta() {
     }
   };
 
+  const [proveedores, setProveedores] = useState([]);
+
+  const obtenerProveedores = async () => {
+    try {
+      const response = await axios.get(
+        "https://localhost:7220/api/Catalogo/Proveedores"
+      );
+      setProveedores(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [tipoDoc, settipoDoc] = useState([]);
+  const setTipoDoc = async () => {
+    try {
+      const response = await axios.get(
+        "https://localhost:7220/api/Catalogo/tipoDocumentos"
+      );
+      settipoDoc(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [terminoCred, setTerminoCred] = useState([]);
+  const setTerminoCredito = async () => {
+    try {
+      const response = await axios.get(
+        "https://localhost:7220/api/Catalogo/terminoCredito"
+      );
+      setTerminoCred(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     obtenerDocumentos();
+    obtenerProveedores();
+    setTipoDoc();
+    setTerminoCredito();
   }, []);
 
   // Insertar
@@ -71,13 +111,19 @@ export default function TipoLibreta() {
   const modificarTipoDocumento = async () => {
     try {
       const response = await axios
-        .put(url + "/" + documentoSeleccionado.codigoTipoDocumento, documentoSeleccionado)
+        .put(
+          url + "/" + documentoSeleccionado.codigoTipoDocumento,
+          documentoSeleccionado
+        )
         .then((response) => {
           var respuesta = response.data;
           var auxiliarData = data;
           auxiliarData.map((tipo) => {
-            if (tipo.codigoTipoDocumento === documentoSeleccionado.numeroDocumento) {
-              tipo.descripcionTipoDocumento = respuesta.descripcionTipoDocumento;
+            if (
+              tipo.codigoTipoDocumento === documentoSeleccionado.numeroDocumento
+            ) {
+              tipo.descripcionTipoDocumento =
+                respuesta.descripcionTipoDocumento;
             }
             setData(auxiliarData);
           });
@@ -91,9 +137,14 @@ export default function TipoLibreta() {
   const eliminarTipoDocumento = async () => {
     try {
       const response = await axios
-        .delete(url + "/" + documentoSeleccionado.codigoTipoDocumento, documentoSeleccionado)
+        .delete(
+          url + "/" + documentoSeleccionado.codigoTipoDocumento,
+          documentoSeleccionado
+        )
         .then((response) => {
-          setData(data.filter((tipo) => tipo.codigoTipoDocumento !== response.data));
+          setData(
+            data.filter((tipo) => tipo.codigoTipoDocumento !== response.data)
+          );
         });
     } catch (error) {
       console.log(error);
@@ -125,13 +176,14 @@ export default function TipoLibreta() {
 
       <section className="content">
         <div className="container-fluid">
-          
           <div className="row">
             <div className="col-md-3">
-              <button type="button"
+              <button
+                type="button"
                 class="btn btn-sm btn-primary btn-lg"
                 data-toggle="modal"
-                data-target="#modal-tipo-insertar" >
+                data-target="#modal-tipo-insertar"
+              >
                 Insertar nuevo documento
               </button>
             </div>
@@ -209,91 +261,199 @@ export default function TipoLibreta() {
           </div>
 
           {/* ventana modal insertar */}
-          <div
-            className="modal fade"
-            id="modal-tipo-insertar"
-          >
-            <div className="modal-dialog">
+          <div className="modal fade" id="modal-tipo-insertar">
+            <div className="modal-dialog modal-xl">
               <div className="modal-content">
                 <div className="modal-header">
                   <h4 className="modal-title">Insertar Documento</h4>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close" > 
-                         <span aria-hidden="true">×</span>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
                   </button>
                 </div>
+
                 <div className="modal-body">
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      Numero de documento
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="numeroDocumento"
-                      placeholder="Ingrese un numero de documento"
-                      name="numeroDocumento"
-                      onChange={handleChange}
-                    />
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Numero de documento
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="numeroDocumento"
+                          placeholder="Ingrese un numero de documento"
+                          name="numeroDocumento"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          codigo de Proveedor
+                        </label>
+                        <select
+                          class="form-control"
+                          id="codigoLibreta"
+                          name="codigoLibreta"
+                          onChange={handleChange}
+                        >
+                          {proveedores.map((n) => (
+                            <option value={n.codigoLibreta}>
+                              {n.nombreLibreta}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      codigo de Proveedor
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="codigoLibreta"
-                      placeholder="Ingrese codigo de proveedor"
-                      name="codigoLibreta"
-                      onChange={handleChange}
-                    />
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Tipo de documento
+                        </label>
+                        <select
+                          class="form-control"
+                          id="codigoTipoDocumento"
+                          name="codigoTipoDocumento"
+                          onChange={handleChange}
+                        >
+                          {tipoDoc.map((n) => (
+                            <option value={n.codigoTipoDocumento}>
+                              {n.descripcionTipoDocumento}
+                            </option>
+                          ))}
+
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Fecha del documento
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="fechaDocumento"
+                          placeholder="Ingrese fecha de documento"
+                          name="fechaDocumento"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      Tipo de documento
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="codigoTipoDocumeto"
-                      placeholder="Ingrese codigo tipo documento"
-                      name="codigoTipoDocumeto"
-                      onChange={handleChange}
-                    />
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Fecha de vencimiento
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="fechaVencimiento"
+                          placeholder="Ingrese fecha de vencimiento"
+                          name="fechaVencimiento"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Termino de credito
+                        </label>
+                        <select
+                          class="form-control"
+                          id="codigoTerminoCredito"
+                          name="codigoTerminoCredito"
+                          onChange={handleChange}
+                        >
+                          {terminoCred.map((n) => (
+                            <option value={n.codigoTerminoCredito}>
+                              {n.descripcionTerminoCredito}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      Fecha del documento
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="fechaDocumento"
-                      placeholder="Ingrese fecha de documento"
-                      name="fechaDocumento"
-                      onChange={handleChange}
-                    />
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Subtotal</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="subtotal"
+                          placeholder="Ingrese el subtotal"
+                          name="subtotal"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">ISV</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="montoISV"
+                          placeholder="Ingrese el ISV"
+                          name="montoISV"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      Fecha de vencimiento
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="fechaVencimiento"
-                      placeholder="Ingrese fecha de vencimiento"
-                      name="fechaVencimiento"
-                      onChange={handleChange}
-                    />
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Total</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="montoTotal"
+                          placeholder="Ingrese el total"
+                          name="montoTotal"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">
+                          Estado de documento
+                        </label>
+                        <select
+                          class="form-control"
+                          id="estadoDocumento"
+                          name="estadoDocumento"
+                          onChange={handleChange}
+                        >
+                          <option value="Pendiente">Pendiente</option>
+                          <option value="Pagado">Pagado</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-
-
-
                 </div>
                 <div className="modal-footer justify-content-between">
                   <button
@@ -316,114 +476,6 @@ export default function TipoLibreta() {
               </div>
             </div>
           </div>
-
-          {/* Ventana modal modificar */}
-          <div className="modal fade" id="modal-tipo-modificar">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h4 className="modal-title">Modificar Tipo de Documento</h4>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Codigo Tipo Documento</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="codigoTipoDocumento"
-                      name="codigoTipoDocumento"
-                      readOnly
-                      value={documentoSeleccionado && documentoSeleccionado.numeroDocumento}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">
-                      Descripcion tipo de Documento
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="descripcionTipoDocumento"
-                      placeholder="Ingrese un tipo de documento"
-                      name="descripcionTipoDocumento"
-                      onChange={handleChange}
-                      value={
-                        documentoSeleccionado && documentoSeleccionado.descripcionTipoDocumento
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="modal-footer justify-content-between">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    data-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => modificarTipoDocumento()}
-                  >
-                    Modificar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Eliminar */}
-          <div className="modal fade" id="modal-tipo-eliminar">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h4 className="modal-title">Eliminar Tipo de Documento</h4>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <p>
-                    Esta seguro de eliminar el tipo:{" "}
-                    {documentoSeleccionado && documentoSeleccionado.numeroDocumento}?
-                  </p>
-                </div>
-                <div className="modal-footer justify-content-between">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    data-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => eliminarTipoDocumento()}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
         </div>
       </section>
     </div>
